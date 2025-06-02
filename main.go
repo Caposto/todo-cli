@@ -1,20 +1,32 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"os/exec"
-	"log"
+	"strings"
 )
 
-func main() {
-	fmt.Println("LS COMMAND")
-	ls := exec.Command("ls", ".")
+func execInput(s string) error {
+	trimmedInput := strings.TrimSuffix(s, "\n")
+	command := exec.Command(trimmedInput)
+	command.Stderr =  os.Stderr
+	command.Stdout = os.Stdout
+	return command.Run()
+}
 
-	output, err := ls.CombinedOutput()
+func main() {	
+	reader := bufio.NewReader(os.Stdin)
+	// Create input loop
+	for {
+		fmt.Print(">")
+		line, err := reader.ReadString('\n')
 
-	if  err != nil {
-		log.Fatal(err)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
+
+		execInput(line)
 	}
-
-	fmt.Println(string(output))
 }
