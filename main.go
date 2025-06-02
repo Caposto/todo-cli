@@ -10,7 +10,8 @@ import (
 
 func execInput(s string) error {
 	trimmedInput := strings.TrimSuffix(s, "\n")
-	command := exec.Command(trimmedInput)
+	args := strings.Split(trimmedInput, " ")
+	command := exec.Command(args[0], args[1:]...)
 	command.Stderr =  os.Stderr
 	command.Stdout = os.Stdout
 	return command.Run()
