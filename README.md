@@ -6,11 +6,6 @@
 
 # MVP
 
-- [ ] Add a task
-- [ ] List tasks
-- [ ] Mark a task as done
-- [ ] Remove a task
-- [ ] Add due date to a task
 - [ ] Link TODO to a calendar entry
 - [ ] Link TODO to an email draft
 

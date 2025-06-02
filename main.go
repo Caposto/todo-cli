@@ -29,11 +29,40 @@ func execInput(s string) error {
 	return command.Run()
 }
 
+func getInputIndicator() string {
+	uname := exec.Command("uname")
+	unameOutput, err := uname.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return ""
+	}
+
+	hostname := exec.Command("hostname")
+	hostnameOutput, err := hostname.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return ""
+	}
+
+	pwd := exec.Command("pwd")
+	pwdOutput, err := pwd.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return ""
+	}
+
+	// <uname> + <hostname> in <pwd>
+	indicator := string(unameOutput) + " at " + string(hostnameOutput) + " in " + string(pwdOutput)
+	trimmedIndicator := strings.ReplaceAll(indicator, "\n", "")
+	return trimmedIndicator
+}
+
 func main() {	
 	reader := bufio.NewReader(os.Stdin)
 	// Create input loop
 	for {
-		fmt.Print("> ")
+		fmt.Print(getInputIndicator())
+		fmt.Print(" > ")
 		line, err := reader.ReadString('\n')
 
 		if err != nil {
